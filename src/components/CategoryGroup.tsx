@@ -4,13 +4,13 @@ import {Timer} from '../types';
 import TimerItem from './TimerItem';
 import {useTimerContext} from '../context/TimerContext';
 
-interface CategoryGroupProps {
+interface GroupingProps {
   category: string;
   timers: Timer[];
   onTimerComplete: (timer: Timer) => void;
 }
 
-const CategoryGroup: React.FC<CategoryGroupProps> = ({
+const CategoryGroup: React.FC<GroupingProps> = ({
   category,
   timers,
   onTimerComplete,
@@ -20,23 +20,23 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({
     useTimerContext();
 
   const hasRunningTimers = timers.some(timer => timer.status === 'Running');
-  const hasNonCompletedTimers = timers.some(
-    timer => timer.status !== 'Completed',
-  );
+  const notCompletedTimers = timers.some(timer => timer.status !== 'Completed');
 
-  const toggleExpand = () => {
+  const ExpandToggle = () => {
     setExpanded(!expanded);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={toggleExpand} style={styles.categoryHeader}>
+        <TouchableOpacity onPress={ExpandToggle} style={styles.categoryHeader}>
           <Text style={styles.categoryName}>{category}</Text>
-          <Text style={styles.expandIcon}>{expanded ? '▼' : '▶'}</Text>
+          <Text style={styles.expandIcon}>
+            {expanded ? 'Collapse' : 'Expand'}
+          </Text>
         </TouchableOpacity>
 
-        {hasNonCompletedTimers && (
+        {notCompletedTimers && (
           <View style={styles.bulkActionsContainer}>
             {!hasRunningTimers ? (
               <TouchableOpacity
@@ -78,35 +78,35 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    padding: 8,
+    marginBottom: 14,
+    backgroundColor: '#e1c9c4',
+    borderRadius: 6,
+    padding: 10,
   },
   header: {
     flexDirection: 'column',
   },
   categoryHeader: {
     flexDirection: 'row',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
   },
   categoryName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#444444',
   },
   expandIcon: {
     fontSize: 16,
-    color: '#757575',
+    color: '#444444',
   },
   bulkActionsContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   bulkActionButton: {
     paddingHorizontal: 12,
@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFC107',
   },
   resetButton: {
-    backgroundColor: '#9E9E9E',
+    backgroundColor: '#b1a7a4 ',
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 12,
+    color: '#b1a7a4 ',
+    fontWeight: '400',
+    fontSize: 14,
   },
   timersList: {
     paddingTop: 8,

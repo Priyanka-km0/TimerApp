@@ -12,7 +12,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   color = '#4CAF50',
   height = 10,
 }) => {
-  const clampedProgress = Math.min(Math.max(progress, 0), 1);
+  const progresses = Math.min(Math.max(progress, 0), 1);
 
   return (
     <View style={[styles.container, {height}]}>
@@ -20,7 +20,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         style={[
           styles.progressFill,
           {
-            width: `${clampedProgress * 100}%`,
+            width: `${progresses * 100}%`,
             backgroundColor: color,
             height,
           },
@@ -33,9 +33,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: '#E0E0E0',
-    borderRadius: 5,
-    overflow: 'hidden',
+    backgroundColor: '#6dbfd8',
+    borderRadius: 6,
   },
   progressFill: {
     height: '100%',
