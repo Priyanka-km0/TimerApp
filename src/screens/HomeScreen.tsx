@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useTimerContext} from '../context/TimerContext';
-import CategoryGroup from '../components/CategoryGroup';
+import GroupingByCategory from '../components/GroupingByCatergory';
 import CompletionModal from '../components/CompletionModal';
 import HalfWayAlert from '../components/HalfWayAlert';
 import {RootStackParamList} from '../navigation/types';
@@ -92,7 +92,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
       ) : (
         <ScrollView style={styles.scrollView}>
           {Object.entries(timersByCategory).map(([category, timers]) => (
-            <CategoryGroup
+            <GroupingByCategory
               key={category}
               category={category}
               timers={timers}

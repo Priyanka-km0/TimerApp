@@ -10,7 +10,7 @@ interface GroupingProps {
   onTimerComplete: (timer: Timer) => void;
 }
 
-const CategoryGroup: React.FC<GroupingProps> = ({
+const GroupingByCatergory: React.FC<GroupingProps> = ({
   category,
   timers,
   onTimerComplete,
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryGroup;
+export default GroupingByCatergory;
