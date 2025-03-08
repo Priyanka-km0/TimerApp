@@ -8,8 +8,6 @@ export interface Timer {
   status: TimerStatus;
   remainingTime: number; 
   createdAt: number; 
-  halfwayAlert: boolean; 
-  halfwayAlertTriggered?: boolean;
 }
 
 export interface TimerLog {

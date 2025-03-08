@@ -10,7 +10,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useTimerContext} from '../context/TimerContext';
 import GroupingByCategory from '../components/GroupingByCatergory';
 import CompletionModal from '../components/CompletionModal';
-import HalfWayAlert from '../components/HalfWayAlert';
 import {RootStackParamList} from '../navigation/types';
 import {Timer} from '../types';
 
@@ -20,22 +19,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {timersByCategory, state} = useTimerContext();
   const [completedTimer, setCompletedTimer] = useState<Timer | null>(null);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
-  const [halfwayAlertTimer, setHalfwayAlertTimer] = useState<Timer | null>(
-    null,
-  );
-  const [showHalfwayAlert, setShowHalfwayAlert] = useState(false);
-
-  React.useEffect(() => {
-    const timer = state.timers.find(
-      t =>
-        t.halfwayAlert && t.halfwayAlertTriggered && !t.halfwayAlertTriggered,
-    );
-
-    if (timer) {
-      setHalfwayAlertTimer(timer);
-      setShowHalfwayAlert(true);
-    }
-  }, [state.timers]);
 
   const handleTimerComplete = (timer: Timer) => {
     setCompletedTimer(timer);
@@ -45,11 +28,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   const closeCompletionModal = () => {
     setShowCompletionModal(false);
     setCompletedTimer(null);
-  };
-
-  const closeHalfwayAlert = () => {
-    setShowHalfwayAlert(false);
-    setHalfwayAlertTimer(null);
   };
 
   const navigateToAddTimer = () => {
@@ -106,12 +84,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         timer={completedTimer}
         visible={showCompletionModal}
         onClose={closeCompletionModal}
-      />
-
-      <HalfWayAlert
-        timer={halfwayAlertTimer}
-        visible={showHalfwayAlert}
-        onClose={closeHalfwayAlert}
       />
     </View>
   );

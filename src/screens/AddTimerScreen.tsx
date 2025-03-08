@@ -63,7 +63,6 @@ const AddTimerScreen = ({navigation}: AddTimerScreenProps) => {
         name,
         duration: parseInt(duration),
         category,
-        halfwayAlert,
       });
       navigation.goBack();
     }

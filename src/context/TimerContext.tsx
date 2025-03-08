@@ -44,7 +44,6 @@ interface TimerContextType {
   pauseCategoryTimers: (category: string) => void;
   resetCategoryTimers: (category: string) => void;
   decrementTimers: () => void;
-  triggerHalfwayAlert: (timerId: string) => void;
 }
 
 const initialState: TimerState = {
@@ -91,7 +90,6 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
                 ...timer,
                 status: 'Paused',
                 remainingTime: timer.duration,
-                halfwayAlertTriggered: false,
               }
             : timer,
         ),
@@ -136,17 +134,7 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
                 ...timer,
                 status: 'Paused',
                 remainingTime: timer.duration,
-                halfwayAlertTriggered: false,
               }
-            : timer,
-        ),
-      };
-    case 'TRIGGER_HALFWAY_ALERT':
-      return {
-        ...state,
-        timers: state.timers.map(timer =>
-          timer.id === action.payload
-            ? {...timer, halfwayAlertTriggered: true}
             : timer,
         ),
       };
@@ -260,22 +248,10 @@ export const TimerProvider: React.FC<{children: React.ReactNode}> = ({
     dispatch({type: 'RESET_CATEGORY_TIMERS', payload: category});
   };
 
-  const triggerHalfwayAlert = (timerId: string) => {
-    dispatch({type: 'TRIGGER_HALFWAY_ALERT', payload: timerId});
-  };
-
   const decrementTimers = () => {
     const updatedTimers = state.timers.map(timer => {
       if (timer.status === 'Running' && timer.remainingTime > 0) {
         const newRemainingTime = timer.remainingTime - 1;
-
-        if (
-          timer.halfwayAlert &&
-          !timer.halfwayAlertTriggered &&
-          newRemainingTime <= timer.duration / 2
-        ) {
-          setTimeout(() => triggerHalfwayAlert(timer.id), 0);
-        }
 
         if (newRemainingTime === 0) {
           const timerLog: TimerLog = {
@@ -315,7 +291,6 @@ export const TimerProvider: React.FC<{children: React.ReactNode}> = ({
         pauseCategoryTimers,
         resetCategoryTimers,
         decrementTimers,
-        triggerHalfwayAlert,
       }}>
       {children}
     </TimerContext.Provider>
